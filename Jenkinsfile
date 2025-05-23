@@ -1,24 +1,34 @@
 pipeline {
-  agent any
-  environment {
-    SNYK_TOKEN = credentials('snyk-token')  // ✅ Secure access
-  }
-  stages {
-    stage('Install Dependencies') {
-      steps {
-        sh 'npm install'
-      }
+    agent any
+
+    environment {
+        SNYK_TOKEN = credentials('snyk-token') // Replace with your actual Jenkins credential ID
     }
-    stage('Snyk Test') {
-      steps {
-        sh 'npm install -g snyk'
-        sh 'snyk test --all-projects --severity-threshold=high'
-      }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install --legacy-peer-deps'
+            }
+        }
+
+        stage('Snyk Test') {
+            steps {
+                sh 'npm install -g snyk'
+                sh 'snyk test --all-projects --severity-threshold=high'
+            }
+        }
     }
-  }
-  post {
-    always {
-      echo 'Pipeline complete.'
+
+    post {
+        always {
+            echo 'Pipeline complete.'
+        }
     }
-  }
 }
