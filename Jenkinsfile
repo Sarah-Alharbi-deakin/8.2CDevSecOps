@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18'  // or another Node.js version like node:20
+        }
+    }
 
     environment {
         SNYK_TOKEN = credentials('snyk-token')
