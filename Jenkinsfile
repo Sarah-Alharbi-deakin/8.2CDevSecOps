@@ -1,8 +1,12 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18' // Includes Node.js and npm
+        }
+    }
 
     environment {
-        SNYK_TOKEN = credentials('snyk-token') // You must add this credential in Jenkins
+        SNYK_TOKEN = credentials('snyk-token') //  Must match the Jenkins credential ID
     }
 
     stages {
