@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     environment {
-        SNYK_TOKEN = credentials('snyk-token') // You must add this credential in Jenkins
+        SNYK_TOKEN = credentials('snyk-token')
     }
 
     stages {
-        stage('Install') {
+        stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
